@@ -10,7 +10,7 @@ Static GitHub Pages website for `https://kpdprojects.com.au/`.
 - Compliance/trust disclaimer
 - Quote request form with photo upload field
 - Thank-you page
-- Instagram social link
+- Instagram and TikTok social links
 - Local hero image asset at `assets/kpd-projects-hero.png`
 - Company logos at `assets/kpd-logo-light.jpeg` and `assets/kpd-logo-dark.jpeg`
 
@@ -30,10 +30,11 @@ kpdprojectsau@gmail.com
 
 On the first live submission, FormSubmit may email `kpdprojectsau@gmail.com` a confirmation link before forwarding messages.
 
-The social call-to-action points to:
+The social call-to-action links point to:
 
 ```text
-https://www.instagram.com/kpdprojects.au/
+Instagram: https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr
+TikTok: https://www.tiktok.com/@kpd.projects?_r=1&_t=ZS-96GnorOEDYo
 ```
 
 ## Deployment
