@@ -23,10 +23,17 @@ nav?.addEventListener("click", (event) => {
   }
 });
 
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    navToggle?.setAttribute("aria-expanded", "false");
+    nav?.classList.remove("is-open");
+  }
+});
+
 form?.addEventListener("submit", () => {
   const button = form.querySelector("button[type='submit']");
   if (button) {
-    button.textContent = "Sending quote request...";
+    button.textContent = "Sending Quote Request...";
     button.setAttribute("aria-busy", "true");
   }
 });
