@@ -928,7 +928,7 @@ textarea:focus {
   place-items: center;
   background:
     linear-gradient(rgba(7, 21, 40, 0.88), rgba(7, 21, 40, 0.76)),
-    url("assets/kpd-projects-hero.png") center / cover;
+    url("assets/IMG_8063.jpeg") center / cover;
   color: var(--white);
 }
 

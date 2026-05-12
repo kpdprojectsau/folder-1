@@ -11,7 +11,7 @@ Static GitHub Pages website for `https://kpdprojects.com.au/`.
 - Quote request form with photo upload field
 - Thank-you page
 - Instagram and TikTok social links
-- Local hero image asset at `assets/kpd-projects-hero.png`
+- Local hero image asset at `assets/IMG_8063.jpeg`
 - Company logos at `assets/kpd-logo-light.jpeg` and `assets/kpd-logo-dark.jpeg`
 
 ## Enquiry Delivery
