@@ -18,7 +18,7 @@
     <meta property="og:url" content="https://kpdprojects.com.au/">
     <link rel="icon" href="assets/kpd-logo-dark.jpeg">
     <link rel="preload" href="assets/kpd-logo-dark.jpeg" as="image">
-    <link rel="preload" href="assets/IMG_8063.jpeg" as="image">
+    <link rel="preload" href="assets/kpd-projects-hero.png" as="image">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -53,7 +53,7 @@
 
     <main id="main">
       <section class="hero" id="home" aria-labelledby="hero-title">
-        <img class="hero-image" src="assets/IMG_8063.jpeg" alt="Modern residential outdoor entertaining area with a covered patio, timber cladding and landscape lighting">
+        <img class="hero-image" src="assets/kpd-projects-hero.png" alt="KPD Projects residential construction and outdoor improvement work">
         <div class="hero-shade" aria-hidden="true"></div>
         <div class="section-inner hero-inner">
           <div class="hero-copy">
@@ -318,8 +318,8 @@
           </div>
 
           <div class="review-actions" aria-label="Review and social links">
-            <a class="button button-primary" href="https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr" target="_blank" rel="noopener">Leave A Review</a>
-            <a class="button button-outline" href="https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr" target="_blank" rel="noopener">Check Out Our Socials</a>
+            <button class="button button-primary" type="button" data-modal-open="review-modal">Leave A Review</button>
+            <button class="button button-outline" type="button" data-modal-open="socials-modal">Check Out Our Socials</button>
           </div>
         </div>
       </section>
@@ -485,8 +485,8 @@
         </div>
         <div>
           <h2>Socials</h2>
-          <a href="https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://www.tiktok.com/@kpd.projects?_r=1&_t=ZS-96GnorOEDYo" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.tiktok.com/@kpd.projects?_r=1&_t=ZS-96GnorOEDYo" target="_blank" rel="noopener noreferrer">TikTok</a>
         </div>
       </div>
       <div class="footer-compliance">
@@ -500,6 +500,90 @@
         </div>
       </div>
     </footer>
+
+    <div class="modal" id="review-modal" data-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+      <div class="modal-backdrop" data-modal-close></div>
+      <div class="modal-card" role="document">
+        <button class="modal-close" type="button" data-modal-close aria-label="Close review form">&times;</button>
+        <div class="modal-heading">
+          <p class="eyebrow">Leave A Review</p>
+          <h2 id="review-modal-title">Share Your KPD Projects Experience</h2>
+          <p>Your review is emailed to KPD Projects first and is not published automatically.</p>
+        </div>
+
+        <form class="review-form" action="https://formsubmit.co/kpdprojectsau@gmail.com" method="POST" aria-label="Review submission form">
+          <input type="hidden" name="_subject" value="New KPD Projects Review Submission">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://kpdprojects.com.au/thanks.html">
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="review-name">Name</label>
+              <input id="review-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="form-row">
+              <label for="review-email">Email Address</label>
+              <input id="review-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <fieldset class="star-rating full">
+              <legend>Star Rating</legend>
+              <div class="star-rating-options" role="radiogroup" aria-label="Star rating">
+                <label>
+                  <input type="radio" name="star_rating" value="1 Star" required>
+                  <span>1 Star</span>
+                </label>
+                <label>
+                  <input type="radio" name="star_rating" value="2 Stars" required>
+                  <span>2 Stars</span>
+                </label>
+                <label>
+                  <input type="radio" name="star_rating" value="3 Stars" required>
+                  <span>3 Stars</span>
+                </label>
+                <label>
+                  <input type="radio" name="star_rating" value="4 Stars" required>
+                  <span>4 Stars</span>
+                </label>
+                <label>
+                  <input type="radio" name="star_rating" value="5 Stars" required checked>
+                  <span>5 Stars</span>
+                </label>
+              </div>
+            </fieldset>
+            <div class="form-row full">
+              <label for="review-description">Review Description <span class="optional-label">Optional</span></label>
+              <textarea id="review-description" name="review_description" rows="5" placeholder="Share a short note about your experience."></textarea>
+            </div>
+          </div>
+
+          <button class="button button-primary form-submit" type="submit">Send Review</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal" id="socials-modal" data-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="socials-modal-title">
+      <div class="modal-backdrop" data-modal-close></div>
+      <div class="modal-card modal-card-small" role="document">
+        <button class="modal-close" type="button" data-modal-close aria-label="Close socials">&times;</button>
+        <div class="modal-heading">
+          <p class="eyebrow">Socials</p>
+          <h2 id="socials-modal-title">Follow KPD Projects</h2>
+          <p>See recent work, updates and project activity from KPD Projects.</p>
+        </div>
+
+        <div class="social-modal-links" aria-label="KPD Projects social links">
+          <a class="social-modal-link" href="https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr" target="_blank" rel="noopener noreferrer">
+            <span>Instagram</span>
+            <small>https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&amp;utm_source=qr</small>
+          </a>
+          <a class="social-modal-link" href="https://www.tiktok.com/@kpd.projects?_r=1&_t=ZS-96GnorOEDYo" target="_blank" rel="noopener noreferrer">
+            <span>TikTok</span>
+            <small>https://www.tiktok.com/@kpd.projects?_r=1&amp;_t=ZS-96GnorOEDYo</small>
+          </a>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
