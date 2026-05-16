@@ -61,13 +61,14 @@ https://docs.google.com/spreadsheets/d/1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTk
    script.js
    ```
 
-   Replace:
+   The current deployed endpoint is:
 
    ```js
-   const KPD_FORMS_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+   const KPD_FORMS_ENDPOINT =
+     "https://script.google.com/macros/s/AKfycbzA3az56j9lRvLDlpcrxlF9M-aUMuABvEtdxTaozl9eAbjdH4l0iQA_J-U4NZ00EyQx/exec";
    ```
 
-   with the deployed Web App URL.
+   If you create a new deployment later, replace this value with the new deployed Web App URL.
 
 11. Commit and publish the website update.
 
