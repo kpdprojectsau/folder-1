@@ -3,8 +3,21 @@ const REVIEW_SHEET_NAME = "KPD Projects Review Submissions";
 const REVIEW_SPREADSHEET_ID = "1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8";
 const THANKS_URL = "https://kpdprojects.com.au/thanks.html";
 const REVIEW_SPREADSHEET_ID_PROPERTY = "KPD_REVIEW_SPREADSHEET_ID";
+const QUOTE_SHEET_TAB_NAME = "Quote Enquiries";
 const REVIEW_SHEET_TAB_NAME = "Review Submissions";
 const DEFAULT_SOURCE = "KPD Projects Website";
+const QUOTE_HEADERS = [
+  "Timestamp",
+  "Name",
+  "Email",
+  "Phone",
+  "Suburb",
+  "Job Type",
+  "Preferred Timeframe",
+  "Budget Range",
+  "Brief Description",
+  "Source",
+];
 const REVIEW_HEADERS = [
   "Timestamp",
   "Name",
@@ -42,6 +55,7 @@ function setupKPDReviewSheet() {
 
   const sheet = getOrCreateReviewSheet_(spreadsheet);
   ensureReviewHeaders_(sheet);
+  ensureQuoteHeaders_(getOrCreateQuoteSheet_(spreadsheet));
   secureReviewSpreadsheet_(spreadsheet);
 
   return spreadsheet.getUrl();
@@ -65,7 +79,27 @@ function handleQuoteSubmission_(values) {
     "Submitted At: " + new Date().toLocaleString(),
   ].join("\n");
 
+  appendQuoteSubmission_(values);
   sendKPDMail_(subject, body, email);
+}
+
+function appendQuoteSubmission_(values) {
+  const spreadsheet = getReviewSpreadsheet_();
+  const sheet = getOrCreateQuoteSheet_(spreadsheet);
+  ensureQuoteHeaders_(sheet);
+
+  sheet.appendRow([
+    new Date(),
+    valueFor_(values, "name"),
+    valueFor_(values, "email"),
+    valueFor_(values, "phone"),
+    valueFor_(values, "suburb"),
+    valueFor_(values, "job_type"),
+    valueFor_(values, "preferred_timeframe"),
+    valueFor_(values, "budget_range"),
+    valueFor_(values, "brief_description"),
+    valueFor_(values, "source") || DEFAULT_SOURCE,
+  ]);
 }
 
 function handleReviewSubmission_(values) {
@@ -106,6 +140,16 @@ function getReviewSpreadsheet_() {
   return SpreadsheetApp.openById(REVIEW_SPREADSHEET_ID);
 }
 
+function getOrCreateQuoteSheet_(spreadsheet) {
+  let sheet = spreadsheet.getSheetByName(QUOTE_SHEET_TAB_NAME);
+
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(QUOTE_SHEET_TAB_NAME);
+  }
+
+  return sheet;
+}
+
 function getOrCreateReviewSheet_(spreadsheet) {
   let sheet = spreadsheet.getSheetByName(REVIEW_SHEET_TAB_NAME);
 
@@ -117,15 +161,23 @@ function getOrCreateReviewSheet_(spreadsheet) {
   return sheet;
 }
 
+function ensureQuoteHeaders_(sheet) {
+  ensureHeaders_(sheet, QUOTE_HEADERS);
+}
+
 function ensureReviewHeaders_(sheet) {
-  const headerRange = sheet.getRange(1, 1, 1, REVIEW_HEADERS.length);
+  ensureHeaders_(sheet, REVIEW_HEADERS);
+}
+
+function ensureHeaders_(sheet, headers) {
+  const headerRange = sheet.getRange(1, 1, 1, headers.length);
   const currentHeaders = headerRange.getValues()[0];
   const hasHeaders = currentHeaders.some(function (value) {
     return String(value || "").trim() !== "";
   });
 
   if (!hasHeaders) {
-    headerRange.setValues([REVIEW_HEADERS]);
+    headerRange.setValues([headers]);
   }
 
   headerRange.setFontWeight("bold");
