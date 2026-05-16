@@ -16,7 +16,7 @@ Static GitHub Pages website for `https://kpdprojects.com.au/`.
 
 ## Enquiry Delivery
 
-The quote and review forms post to a Google Apps Script Web App endpoint configured in `script.js`.
+The quote and review forms post to the Google Apps Script Web App endpoint configured in `script.js`.
 
 Quote enquiries are emailed to:
 
