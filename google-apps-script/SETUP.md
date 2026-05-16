@@ -2,6 +2,12 @@
 
 This backend replaces the previous hosted form service for the KPD Projects static GitHub Pages website.
 
+Review submissions are saved to this private Google Sheet:
+
+```text
+https://docs.google.com/spreadsheets/d/1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8/edit?gid=0#gid=0
+```
+
 ## Deploy The Backend
 
 1. Sign into Google using:
@@ -32,7 +38,9 @@ This backend replaces the previous hosted form service for the KPD Projects stat
    setupKPDReviewSheet()
    ```
 
-6. Approve the requested permissions.
+   This opens the configured review spreadsheet, creates or reuses the `Review Submissions` tab, adds the review headers, and stores the spreadsheet ID in Script Properties.
+
+6. Approve the requested permissions. The signed-in Google account must have edit access to the review spreadsheet above.
 
 7. Deploy as a Web App.
 
@@ -66,7 +74,7 @@ This backend replaces the previous hosted form service for the KPD Projects stat
 ## What The Backend Does
 
 - Quote submissions are emailed to `kpdprojectsau@gmail.com`.
-- Review submissions are saved to a private Google Sheet named `KPD Projects Review Submissions`.
+- Review submissions are saved to the configured private Google Sheet.
 - Review submissions also send a notification email to `kpdprojectsau@gmail.com`.
 - Submitted reviews are not automatically published on the website.
 - After a successful submission, users are redirected to `https://kpdprojects.com.au/thanks.html`.
