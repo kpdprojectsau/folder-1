@@ -1,5 +1,6 @@
 const KPD_EMAIL = "kpdprojectsau@gmail.com";
 const REVIEW_SHEET_NAME = "KPD Projects Review Submissions";
+const REVIEW_SPREADSHEET_ID = "1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8";
 const THANKS_URL = "https://kpdprojects.com.au/thanks.html";
 const REVIEW_SPREADSHEET_ID_PROPERTY = "KPD_REVIEW_SPREADSHEET_ID";
 const REVIEW_SHEET_TAB_NAME = "Review Submissions";
@@ -36,17 +37,8 @@ function doGet() {
 
 function setupKPDReviewSheet() {
   const properties = PropertiesService.getScriptProperties();
-  let spreadsheetId = properties.getProperty(REVIEW_SPREADSHEET_ID_PROPERTY);
-  let spreadsheet;
-
-  if (spreadsheetId) {
-    spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-    spreadsheet.setName(REVIEW_SHEET_NAME);
-  } else {
-    spreadsheet = SpreadsheetApp.create(REVIEW_SHEET_NAME);
-    spreadsheetId = spreadsheet.getId();
-    properties.setProperty(REVIEW_SPREADSHEET_ID_PROPERTY, spreadsheetId);
-  }
+  const spreadsheet = SpreadsheetApp.openById(REVIEW_SPREADSHEET_ID);
+  properties.setProperty(REVIEW_SPREADSHEET_ID_PROPERTY, REVIEW_SPREADSHEET_ID);
 
   const sheet = getOrCreateReviewSheet_(spreadsheet);
   ensureReviewHeaders_(sheet);
@@ -111,15 +103,7 @@ function handleReviewSubmission_(values) {
 }
 
 function getReviewSpreadsheet_() {
-  const properties = PropertiesService.getScriptProperties();
-  let spreadsheetId = properties.getProperty(REVIEW_SPREADSHEET_ID_PROPERTY);
-
-  if (!spreadsheetId) {
-    setupKPDReviewSheet();
-    spreadsheetId = properties.getProperty(REVIEW_SPREADSHEET_ID_PROPERTY);
-  }
-
-  return SpreadsheetApp.openById(spreadsheetId);
+  return SpreadsheetApp.openById(REVIEW_SPREADSHEET_ID);
 }
 
 function getOrCreateReviewSheet_(spreadsheet) {
