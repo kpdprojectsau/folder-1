@@ -24,7 +24,7 @@ Quote enquiries are emailed to:
 kpdprojectsau@gmail.com
 ```
 
-Review submissions are saved to this private Google Sheet and are not automatically published on the website:
+Quote and review submissions are saved to this private Google Sheet. Reviews are not automatically published on the website:
 
 ```text
 https://docs.google.com/spreadsheets/d/1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8/edit?gid=0#gid=0
