@@ -58,3 +58,9 @@ The form confirmation URL is:
 ```text
 https://kpdprojects.com.au/thanks.html
 ```
+
+The review confirmation URL is:
+
+```text
+https://kpdprojects.com.au/review-thank-you.html
+```
