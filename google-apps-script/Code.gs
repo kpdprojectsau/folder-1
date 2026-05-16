@@ -2,6 +2,7 @@ const KPD_EMAIL = "kpdprojectsau@gmail.com";
 const REVIEW_SHEET_NAME = "KPD Projects Review Submissions";
 const REVIEW_SPREADSHEET_ID = "1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8";
 const THANKS_URL = "https://kpdprojects.com.au/thanks.html";
+const REVIEW_THANKS_URL = "https://kpdprojects.com.au/review-thank-you.html";
 const REVIEW_SPREADSHEET_ID_PROPERTY = "KPD_REVIEW_SPREADSHEET_ID";
 const QUOTE_SHEET_TAB_NAME = "Quote Enquiries";
 const REVIEW_SHEET_TAB_NAME = "Review Submissions";
@@ -33,12 +34,12 @@ function doPost(e) {
 
   if (formType === "quote") {
     handleQuoteSubmission_(values);
-    return redirectToThanks_();
+    return redirectToThanks_(THANKS_URL);
   }
 
   if (formType === "review") {
     handleReviewSubmission_(values);
-    return redirectToThanks_();
+    return redirectToThanks_(REVIEW_THANKS_URL);
   }
 
   return errorResponse_("The form type was not recognised.");
@@ -249,20 +250,21 @@ function getEffectiveUserEmail_() {
   }
 }
 
-function redirectToThanks_() {
+function redirectToThanks_(url) {
+  const redirectUrl = url || THANKS_URL;
   const html = [
     "<!doctype html>",
     "<html>",
     "<head>",
     '<meta charset="utf-8">',
-    '<meta http-equiv="refresh" content="0; url=' + THANKS_URL + '">',
+    '<meta http-equiv="refresh" content="0; url=' + redirectUrl + '">',
     "<title>Redirecting...</title>",
     "<script>",
-    "window.top.location.href = " + JSON.stringify(THANKS_URL) + ";",
+    "window.top.location.href = " + JSON.stringify(redirectUrl) + ";",
     "</script>",
     "</head>",
     "<body>",
-    '<p>Thanks. Redirecting to <a href="' + THANKS_URL + '">KPD Projects</a>.</p>',
+    '<p>Thanks. Redirecting to <a href="' + redirectUrl + '">KPD Projects</a>.</p>',
     "</body>",
     "</html>",
   ].join("");
