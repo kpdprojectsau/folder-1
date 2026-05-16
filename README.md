@@ -6,7 +6,7 @@ Static GitHub Pages website for `https://kpdprojects.com.au/`.
 
 - Homepage hero with trust points
 - Services, why choose, process, about, service areas and contact sections
-- Future-ready project gallery and reviews sections
+- Future-ready project gallery and client reviews sections
 - Compliance/trust disclaimer
 - Quote request form with photo upload field
 - Thank-you page
@@ -16,11 +16,15 @@ Static GitHub Pages website for `https://kpdprojects.com.au/`.
 
 ## Enquiry Delivery
 
-The quote form posts to FormSubmit so enquiries can be delivered to:
+The quote and review forms post to a Google Apps Script Web App endpoint configured in `script.js`.
+
+Quote enquiries are emailed to:
 
 ```text
 kpdprojectsau@gmail.com
 ```
+
+Review submissions are saved to a private Google Sheet and are not automatically published on the website.
 
 The public contact email shown on the site is:
 
@@ -28,7 +32,11 @@ The public contact email shown on the site is:
 kpdprojectsau@gmail.com
 ```
 
-On the first live submission, FormSubmit may email `kpdprojectsau@gmail.com` a confirmation link before forwarding messages.
+Google Apps Script deployment instructions are in:
+
+```text
+google-apps-script/SETUP.md
+```
 
 The social call-to-action links point to:
 
