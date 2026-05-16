@@ -2,6 +2,7 @@
 const KPD_FORMS_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbzA3az56j9lRvLDlpcrxlF9M-aUMuABvEtdxTaozl9eAbjdH4l0iQA_J-U4NZ00EyQx/exec";
 const KPD_CONTACT_EMAIL = "kpdprojectsau@gmail.com";
+const KPD_REVIEW_THANK_YOU_URL = "review-thank-you.html";
 const header = document.querySelector("[data-elevate]");
 const navToggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector("#site-nav");
@@ -80,9 +81,76 @@ const setFormStatus = (formElement, message) => {
   status.hidden = false;
 };
 
+const clearFormStatus = (formElement) => {
+  const status = formElement.querySelector("[data-form-status]");
+
+  if (!status) {
+    return;
+  }
+
+  status.textContent = "";
+  status.hidden = true;
+};
+
+const setSubmitState = (button, isSubmitting, submittingText = "") => {
+  if (!(button instanceof HTMLButtonElement)) {
+    return;
+  }
+
+  if (!button.dataset.defaultText) {
+    button.dataset.defaultText = button.textContent || "";
+  }
+
+  button.disabled = isSubmitting;
+  button.setAttribute("aria-busy", String(isSubmitting));
+  button.textContent = isSubmitting ? submittingText : button.dataset.defaultText;
+};
+
 const getSubmittingText = (formElement) => {
   const formType = new FormData(formElement).get("form_type");
   return formType === "review" ? "Sending Review..." : "Sending Quote Request...";
+};
+
+const getFormType = (formElement) => String(new FormData(formElement).get("form_type") || "");
+
+const formDataToSearchParams = (formData) => {
+  const params = new URLSearchParams();
+
+  formData.forEach((value, key) => {
+    if (value instanceof File) {
+      return;
+    }
+
+    params.append(key, value);
+  });
+
+  return params;
+};
+
+const submitReviewForm = async (formElement) => {
+  const button = formElement.querySelector("button[type='submit']");
+  const successUrl = formElement.dataset.successUrl || KPD_REVIEW_THANK_YOU_URL;
+
+  clearFormStatus(formElement);
+  setSubmitState(button, true, getSubmittingText(formElement));
+  formElement.dataset.submitting = "true";
+
+  try {
+    await fetch(KPD_FORMS_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      body: formDataToSearchParams(new FormData(formElement)),
+    });
+
+    window.location.assign(successUrl);
+  } catch (error) {
+    setSubmitState(button, false);
+    delete formElement.dataset.submitting;
+    setFormStatus(
+      formElement,
+      `We could not send your review. Please email ${KPD_CONTACT_EMAIL} directly.`,
+    );
+  }
 };
 
 updateHeader();
@@ -155,6 +223,8 @@ managedForms.forEach((formElement) => {
   }
 
   formElement.addEventListener("submit", (event) => {
+    const formType = getFormType(formElement);
+
     if (!isFormsEndpointConfigured()) {
       event.preventDefault();
       setFormStatus(
@@ -164,13 +234,25 @@ managedForms.forEach((formElement) => {
       return;
     }
 
+    if (formType === "review") {
+      event.preventDefault();
+
+      if (formElement.dataset.submitting === "true") {
+        return;
+      }
+
+      if (!formElement.reportValidity()) {
+        return;
+      }
+
+      submitReviewForm(formElement);
+      return;
+    }
+
     formElement.action = KPD_FORMS_ENDPOINT;
 
     const button = formElement.querySelector("button[type='submit']");
 
-    if (button) {
-      button.textContent = getSubmittingText(formElement);
-      button.setAttribute("aria-busy", "true");
-    }
+    setSubmitState(button, true, getSubmittingText(formElement));
   });
 });
