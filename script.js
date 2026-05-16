@@ -1,7 +1,10 @@
+// Developer setup: paste the deployed Google Apps Script Web App URL here.
+const KPD_FORMS_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const KPD_CONTACT_EMAIL = "kpdprojectsau@gmail.com";
 const header = document.querySelector("[data-elevate]");
 const navToggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector("#site-nav");
-const form = document.querySelector(".quote-form");
+const managedForms = document.querySelectorAll("[data-kpd-form]");
 const modalTriggers = document.querySelectorAll("[data-modal-open]");
 const modals = document.querySelectorAll("[data-modal]");
 const focusableSelector = [
@@ -59,6 +62,26 @@ const closeModal = (modal = activeModal) => {
 
   previousFocus?.focus();
   previousFocus = null;
+};
+
+const isFormsEndpointConfigured = () =>
+  KPD_FORMS_ENDPOINT.startsWith("https://script.google.com/") &&
+  !KPD_FORMS_ENDPOINT.includes("PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE");
+
+const setFormStatus = (formElement, message) => {
+  const status = formElement.querySelector("[data-form-status]");
+
+  if (!status) {
+    return;
+  }
+
+  status.textContent = message;
+  status.hidden = false;
+};
+
+const getSubmittingText = (formElement) => {
+  const formType = new FormData(formElement).get("form_type");
+  return formType === "review" ? "Sending Review..." : "Sending Quote Request...";
 };
 
 updateHeader();
@@ -125,10 +148,28 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-form?.addEventListener("submit", () => {
-  const button = form.querySelector("button[type='submit']");
-  if (button) {
-    button.textContent = "Sending Quote Request...";
-    button.setAttribute("aria-busy", "true");
+managedForms.forEach((formElement) => {
+  if (isFormsEndpointConfigured()) {
+    formElement.action = KPD_FORMS_ENDPOINT;
   }
+
+  formElement.addEventListener("submit", (event) => {
+    if (!isFormsEndpointConfigured()) {
+      event.preventDefault();
+      setFormStatus(
+        formElement,
+        `Form service is not connected yet. Please email ${KPD_CONTACT_EMAIL} directly.`,
+      );
+      return;
+    }
+
+    formElement.action = KPD_FORMS_ENDPOINT;
+
+    const button = formElement.querySelector("button[type='submit']");
+
+    if (button) {
+      button.textContent = getSubmittingText(formElement);
+      button.setAttribute("aria-busy", "true");
+    }
+  });
 });
