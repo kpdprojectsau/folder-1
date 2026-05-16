@@ -1,5 +1,6 @@
-// Developer setup: paste the deployed Google Apps Script Web App URL here.
-const KPD_FORMS_ENDPOINT = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+// Google Apps Script Web App endpoint for KPD Projects quote and review forms.
+const KPD_FORMS_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbzA3az56j9lRvLDlpcrxlF9M-aUMuABvEtdxTaozl9eAbjdH4l0iQA_J-U4NZ00EyQx/exec";
 const KPD_CONTACT_EMAIL = "kpdprojectsau@gmail.com";
 const header = document.querySelector("[data-elevate]");
 const navToggle = document.querySelector(".nav-toggle");
@@ -66,7 +67,7 @@ const closeModal = (modal = activeModal) => {
 
 const isFormsEndpointConfigured = () =>
   KPD_FORMS_ENDPOINT.startsWith("https://script.google.com/") &&
-  !KPD_FORMS_ENDPOINT.includes("PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE");
+  KPD_FORMS_ENDPOINT.endsWith("/exec");
 
 const setFormStatus = (formElement, message) => {
   const status = formElement.querySelector("[data-form-status]");
