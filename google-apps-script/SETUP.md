@@ -78,4 +78,5 @@ https://docs.google.com/spreadsheets/d/1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTk
 - Review submissions are saved to the `Review Submissions` tab in the configured private Google Sheet.
 - Review submissions also send a notification email to `kpdprojectsau@gmail.com`.
 - Submitted reviews are not automatically published on the website.
-- After a successful submission, users are redirected to `https://kpdprojects.com.au/thanks.html`.
+- After a successful quote submission, users are redirected to `https://kpdprojects.com.au/thanks.html`.
+- After a successful review submission, the website redirects users to `https://kpdprojects.com.au/review-thank-you.html`.
