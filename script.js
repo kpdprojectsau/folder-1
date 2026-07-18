@@ -36,9 +36,62 @@ document.querySelectorAll("[data-comparison]").forEach((comparison) => {
 
   const updateComparison = () => {
     const value = Math.min(100, Math.max(0, Number(range.value)));
+    const beforeValue = 100 - value;
     comparison.style.setProperty("--position", `${value}%`);
-    range.setAttribute("aria-valuetext", `${value}% after photo revealed`);
+    range.setAttribute(
+      "aria-valuetext",
+      `${beforeValue}% before and ${value}% after visible`,
+    );
   };
+
+  const updateFromPointer = (event) => {
+    const bounds = range.getBoundingClientRect();
+
+    if (!bounds.width) {
+      return;
+    }
+
+    const value = ((event.clientX - bounds.left) / bounds.width) * 100;
+    range.value = String(Math.round(Math.min(100, Math.max(0, value))));
+    updateComparison();
+  };
+
+  let activePointerId = null;
+
+  range.addEventListener("pointerdown", (event) => {
+    if (event.isPrimary === false) {
+      return;
+    }
+
+    activePointerId = event.pointerId;
+
+    if (range.setPointerCapture) {
+      range.setPointerCapture(event.pointerId);
+    }
+
+    updateFromPointer(event);
+  });
+
+  range.addEventListener("pointermove", (event) => {
+    if (event.isPrimary === false || event.pointerId !== activePointerId) {
+      return;
+    }
+
+    updateFromPointer(event);
+  });
+
+  const releasePointer = (event) => {
+    if (range.hasPointerCapture?.(event.pointerId)) {
+      range.releasePointerCapture(event.pointerId);
+    }
+
+    if (event.pointerId === activePointerId) {
+      activePointerId = null;
+    }
+  };
+
+  range.addEventListener("pointerup", releasePointer);
+  range.addEventListener("pointercancel", releasePointer);
 
   range.addEventListener("input", updateComparison);
   range.addEventListener("change", updateComparison);
