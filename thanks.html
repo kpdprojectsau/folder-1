@@ -3,24 +3,36 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quote Request Sent | KPD Projects</title>
     <meta name="robots" content="noindex">
-    <meta name="theme-color" content="#071528">
+    <title>Quote request received | KPD Projects</title>
     <link rel="icon" href="assets/kpd-logo-dark.jpeg">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body class="thanks-page">
-    <main class="thanks-shell">
-      <a class="brand" href="index.html" aria-label="KPD Projects home">
-        <img class="brand-logo thanks-logo" src="assets/kpd-logo-dark.jpeg" alt="" width="1254" height="1254">
-        <span class="brand-lines">
-          <span>KPD Projects</span>
-          <small>Sydney Renovation</small>
-        </span>
-      </a>
-      <h1>Thanks, Your Quote Request Has Been Sent.</h1>
-      <p>KPD Projects will review your details and come back with the next step.</p>
-      <a class="button button-primary" href="index.html">Back To Home</a>
+    <main class="thanks-card" data-thanks-card hidden>
+      <img src="assets/kpd-logo-dark.jpeg" alt="KPD Projects" width="1254" height="1254">
+      <p class="eyebrow">Request received</p>
+      <h1>Thanks for getting in touch.</h1>
+      <p>KPD Projects has received your quote request and job details.</p>
+      <a class="button button-primary" href="./">Return to KPD Projects</a>
     </main>
+    <noscript>
+      <main class="thanks-card">
+        <h1>Return to KPD Projects</h1>
+        <p>Please return to the quote form to check or send your request.</p>
+        <a class="button button-primary" href="./#contact">Go to the quote form</a>
+      </main>
+    </noscript>
+    <script>
+      const submittedAt = Number(sessionStorage.getItem("kpdQuoteSubmittedAt") || 0);
+      const isRecentSubmission = Date.now() - submittedAt < 10 * 60 * 1000;
+
+      if (isRecentSubmission) {
+        sessionStorage.removeItem("kpdQuoteSubmittedAt");
+        document.querySelector("[data-thanks-card]").hidden = false;
+      } else {
+        window.location.replace("./#contact");
+      }
+    </script>
   </body>
 </html>

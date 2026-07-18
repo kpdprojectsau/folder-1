@@ -1,156 +1,14 @@
-// Google Apps Script Web App endpoint for KPD Projects quote and review forms.
 const KPD_FORMS_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbzA3az56j9lRvLDlpcrxlF9M-aUMuABvEtdxTaozl9eAbjdH4l0iQA_J-U4NZ00EyQx/exec";
 const KPD_CONTACT_EMAIL = "kpdprojectsau@gmail.com";
-const KPD_REVIEW_THANK_YOU_URL = "review-thank-you.html";
+
 const header = document.querySelector("[data-elevate]");
 const navToggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector("#site-nav");
-const managedForms = document.querySelectorAll("[data-kpd-form]");
-const modalTriggers = document.querySelectorAll("[data-modal-open]");
-const modals = document.querySelectorAll("[data-modal]");
-const focusableSelector = [
-  "a[href]",
-  "button:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "textarea:not([disabled])",
-  "[tabindex]:not([tabindex='-1'])",
-].join(",");
-let activeModal = null;
-let previousFocus = null;
+const form = document.querySelector("[data-kpd-form]");
 
 const updateHeader = () => {
   header?.classList.toggle("is-elevated", window.scrollY > 20);
-};
-
-const getFocusableElements = (modal) =>
-  Array.from(modal.querySelectorAll(focusableSelector)).filter(
-    (element) => element instanceof HTMLElement && element.offsetParent !== null,
-  );
-
-const openModal = (modal) => {
-  if (!(modal instanceof HTMLElement)) {
-    return;
-  }
-
-  previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-  activeModal = modal;
-  modal.classList.add("is-open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-
-  const focusable = getFocusableElements(modal);
-  requestAnimationFrame(() => {
-    focusable[0]?.focus();
-  });
-};
-
-const closeModal = (modal = activeModal) => {
-  if (!(modal instanceof HTMLElement)) {
-    return;
-  }
-
-  modal.classList.remove("is-open");
-  modal.setAttribute("aria-hidden", "true");
-
-  if (activeModal === modal) {
-    activeModal = null;
-  }
-
-  if (!document.querySelector("[data-modal].is-open")) {
-    document.body.classList.remove("modal-open");
-  }
-
-  previousFocus?.focus();
-  previousFocus = null;
-};
-
-const isFormsEndpointConfigured = () =>
-  KPD_FORMS_ENDPOINT.startsWith("https://script.google.com/") &&
-  KPD_FORMS_ENDPOINT.endsWith("/exec");
-
-const setFormStatus = (formElement, message) => {
-  const status = formElement.querySelector("[data-form-status]");
-
-  if (!status) {
-    return;
-  }
-
-  status.textContent = message;
-  status.hidden = false;
-};
-
-const clearFormStatus = (formElement) => {
-  const status = formElement.querySelector("[data-form-status]");
-
-  if (!status) {
-    return;
-  }
-
-  status.textContent = "";
-  status.hidden = true;
-};
-
-const setSubmitState = (button, isSubmitting, submittingText = "") => {
-  if (!(button instanceof HTMLButtonElement)) {
-    return;
-  }
-
-  if (!button.dataset.defaultText) {
-    button.dataset.defaultText = button.textContent || "";
-  }
-
-  button.disabled = isSubmitting;
-  button.setAttribute("aria-busy", String(isSubmitting));
-  button.textContent = isSubmitting ? submittingText : button.dataset.defaultText;
-};
-
-const getSubmittingText = (formElement) => {
-  const formType = new FormData(formElement).get("form_type");
-  return formType === "review" ? "Sending Review..." : "Sending Quote Request...";
-};
-
-const getFormType = (formElement) => String(new FormData(formElement).get("form_type") || "");
-
-const formDataToSearchParams = (formData) => {
-  const params = new URLSearchParams();
-
-  formData.forEach((value, key) => {
-    if (value instanceof File) {
-      return;
-    }
-
-    params.append(key, value);
-  });
-
-  return params;
-};
-
-const submitReviewForm = async (formElement) => {
-  const button = formElement.querySelector("button[type='submit']");
-  const successUrl = formElement.dataset.successUrl || KPD_REVIEW_THANK_YOU_URL;
-
-  clearFormStatus(formElement);
-  setSubmitState(button, true, getSubmittingText(formElement));
-  formElement.dataset.submitting = "true";
-
-  try {
-    await fetch(KPD_FORMS_ENDPOINT, {
-      method: "POST",
-      mode: "no-cors",
-      body: formDataToSearchParams(new FormData(formElement)),
-    });
-
-    window.location.assign(successUrl);
-  } catch (error) {
-    setSubmitState(button, false);
-    delete formElement.dataset.submitting;
-    setFormStatus(
-      formElement,
-      `We could not send your review. Please email ${KPD_CONTACT_EMAIL} directly.`,
-    );
-  }
 };
 
 updateHeader();
@@ -169,90 +27,256 @@ nav?.addEventListener("click", (event) => {
   }
 });
 
-modalTriggers.forEach((trigger) => {
-  trigger.addEventListener("click", () => {
-    const modalId = trigger.getAttribute("data-modal-open");
-    const modal = modalId ? document.getElementById(modalId) : null;
-    openModal(modal);
-  });
-});
+document.querySelectorAll("[data-comparison]").forEach((comparison) => {
+  const range = comparison.querySelector(".comparison-range");
 
-modals.forEach((modal) => {
-  modal.addEventListener("click", (event) => {
-    const target = event.target instanceof HTMLElement ? event.target : null;
-    const closeTrigger = target?.closest("[data-modal-close]");
-    const clickedOutsideCard = target && !target.closest(".modal-card");
-
-    if (closeTrigger || clickedOutsideCard) {
-      closeModal(modal);
-    }
-  });
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    navToggle?.setAttribute("aria-expanded", "false");
-    nav?.classList.remove("is-open");
-    closeModal();
+  if (!(range instanceof HTMLInputElement)) {
+    return;
   }
 
-  if (event.key === "Tab" && activeModal) {
-    const focusable = getFocusableElements(activeModal);
+  const updateComparison = () => {
+    const value = Math.min(100, Math.max(0, Number(range.value)));
+    comparison.style.setProperty("--position", `${value}%`);
+    range.setAttribute("aria-valuetext", `${value}% after photo revealed`);
+  };
 
-    if (!focusable.length) {
-      event.preventDefault();
+  range.addEventListener("input", updateComparison);
+  range.addEventListener("change", updateComparison);
+  range.addEventListener("keydown", (event) => {
+    const currentValue = Number(range.value);
+    const valuesByKey = {
+      ArrowLeft: currentValue - 1,
+      ArrowDown: currentValue - 1,
+      ArrowRight: currentValue + 1,
+      ArrowUp: currentValue + 1,
+      Home: 0,
+      End: 100,
+    };
+
+    if (!(event.key in valuesByKey)) {
       return;
     }
 
-    const firstFocusable = focusable[0];
-    const lastFocusable = focusable[focusable.length - 1];
-
-    if (event.shiftKey && document.activeElement === firstFocusable) {
-      event.preventDefault();
-      lastFocusable.focus();
-    } else if (!event.shiftKey && document.activeElement === lastFocusable) {
-      event.preventDefault();
-      firstFocusable.focus();
-    }
-  }
+    event.preventDefault();
+    range.value = String(Math.min(100, Math.max(0, valuesByKey[event.key])));
+    updateComparison();
+  });
+  updateComparison();
 });
 
-managedForms.forEach((formElement) => {
-  if (isFormsEndpointConfigured()) {
-    formElement.action = KPD_FORMS_ENDPOINT;
+const fieldMessages = {
+  name: "Enter your name.",
+  phone: "Enter a phone number.",
+  email: "Enter an email address.",
+  suburb: "Enter the job suburb.",
+  "property-type": "Select the property type.",
+  "job-type": "Select the job type.",
+  description: "Add a brief description of the job.",
+  timeframe: "Select your preferred timeframe.",
+  urgency: "Select the job urgency.",
+  "contact-method": "Select how you would prefer to be contacted.",
+};
+
+const getErrorElement = (field) => document.getElementById(`${field.id}-error`);
+
+const setFieldError = (field, message) => {
+  const error = getErrorElement(field);
+
+  if (error) {
+    error.textContent = message;
   }
 
-  formElement.addEventListener("submit", (event) => {
-    const formType = getFormType(formElement);
+  if (message) {
+    field.setAttribute("aria-invalid", "true");
+  } else {
+    field.removeAttribute("aria-invalid");
+  }
 
-    if (!isFormsEndpointConfigured()) {
-      event.preventDefault();
-      setFormStatus(
-        formElement,
-        `Form service is not connected yet. Please email ${KPD_CONTACT_EMAIL} directly.`,
-      );
-      return;
-    }
+  const describedBy = [
+    field.id === "photos" ? "photo-help photo-delivery" : "",
+    message ? error?.id : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-    if (formType === "review") {
-      event.preventDefault();
+  if (describedBy) field.setAttribute("aria-describedby", describedBy);
+  else field.removeAttribute("aria-describedby");
+};
 
-      if (formElement.dataset.submitting === "true") {
-        return;
+const validateField = (field) => {
+  let message = "";
+
+  if (field.validity.valueMissing) {
+    message = fieldMessages[field.id] || "Complete this field.";
+  } else if (field.validity.typeMismatch && field.type === "email") {
+    message = "Enter an email address in the format name@example.com.";
+  }
+
+  setFieldError(field, message);
+  return !message;
+};
+
+const isSupportedPhoto = (file) => {
+  const supportedMimeTypes = new Set([
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+  ]);
+  const supportedExtension = /\.(jpe?g|png|webp|heic|heif)$/i.test(file.name);
+  return supportedMimeTypes.has(file.type) || (!file.type && supportedExtension);
+};
+
+const validatePhotos = (photoInput) => {
+  const unsupported = Array.from(photoInput.files || []).find((file) => !isSupportedPhoto(file));
+  const message = unsupported
+    ? `${unsupported.name} is not a supported image. Choose a JPG, PNG, WebP or HEIC photo.`
+    : "";
+
+  photoInput.setCustomValidity(message);
+  setFieldError(photoInput, message);
+  return !message;
+};
+
+const renderSelectedFiles = (photoInput) => {
+  const list = form?.querySelector("[data-selected-files]");
+
+  if (!(list instanceof HTMLUListElement)) {
+    return;
+  }
+
+  list.replaceChildren();
+
+  Array.from(photoInput.files || []).forEach((file, index) => {
+    const item = document.createElement("li");
+    const name = document.createElement("span");
+    const remove = document.createElement("button");
+
+    name.textContent = file.name;
+    name.title = file.name;
+    remove.type = "button";
+    remove.textContent = "Remove";
+    remove.setAttribute("aria-label", `Remove ${file.name}`);
+
+    remove.addEventListener("click", () => {
+      const transfer = new DataTransfer();
+
+      Array.from(photoInput.files || []).forEach((selectedFile, selectedIndex) => {
+        if (selectedIndex !== index) {
+          transfer.items.add(selectedFile);
+        }
+      });
+
+      photoInput.files = transfer.files;
+      validatePhotos(photoInput);
+      renderSelectedFiles(photoInput);
+      photoInput.focus();
+    });
+
+    item.append(name, remove);
+    list.append(item);
+  });
+};
+
+if (form instanceof HTMLFormElement) {
+  const requiredFields = Array.from(form.querySelectorAll("[required]"));
+  const photoInput = form.querySelector("#photos");
+  const submitButton = form.querySelector("button[type='submit']");
+  const status = form.querySelector("[data-form-status]");
+
+  form.noValidate = true;
+  form.action = KPD_FORMS_ENDPOINT;
+
+  requiredFields.forEach((field) => {
+    field.addEventListener("blur", () => validateField(field));
+    field.addEventListener("input", () => {
+      if (field.getAttribute("aria-invalid") === "true") {
+        validateField(field);
       }
+    });
+    field.addEventListener("change", () => validateField(field));
+  });
 
-      if (!formElement.reportValidity()) {
-        return;
-      }
+  if (photoInput instanceof HTMLInputElement) {
+    photoInput.addEventListener("change", () => {
+      validatePhotos(photoInput);
+      renderSelectedFiles(photoInput);
+    });
+  }
 
-      submitReviewForm(formElement);
+  form.addEventListener("formdata", (event) => {
+    const description = form.querySelector("#description");
+    const detailLines = [
+      ["Property type", form.querySelector("#property-type")?.value],
+      ["Urgency", form.querySelector("#urgency")?.value],
+      ["Preferred contact method", form.querySelector("#contact-method")?.value],
+    ];
+
+    if (photoInput instanceof HTMLInputElement && photoInput.files.length) {
+      detailLines.push([
+        "Photos",
+        `${photoInput.files.length} selected for separate email: ${Array.from(photoInput.files)
+          .map((file) => file.name)
+          .join(", ")}`,
+      ]);
+    }
+
+    const extraDetails = detailLines
+      .filter(([, value]) => value)
+      .map(([label, value]) => `${label}: ${value}`)
+      .join("\n");
+    const jobDescription = description instanceof HTMLTextAreaElement ? description.value : "";
+
+    event.formData.set(
+      "brief_description",
+      [jobDescription, extraDetails].filter(Boolean).join("\n\n"),
+    );
+  });
+
+  form.addEventListener("submit", (event) => {
+    if (form.dataset.submitting === "true") {
+      event.preventDefault();
       return;
     }
 
-    formElement.action = KPD_FORMS_ENDPOINT;
+    const fieldsValid = requiredFields.map((field) => validateField(field)).every(Boolean);
+    const photosValid =
+      !(photoInput instanceof HTMLInputElement) || validatePhotos(photoInput);
 
-    const button = formElement.querySelector("button[type='submit']");
+    if (!fieldsValid || !photosValid) {
+      event.preventDefault();
+      form.querySelector("[aria-invalid='true']")?.focus();
 
-    setSubmitState(button, true, getSubmittingText(formElement));
+      if (status) {
+        status.textContent = "Check the highlighted fields and try again.";
+        status.hidden = false;
+      }
+      return;
+    }
+
+    if (!KPD_FORMS_ENDPOINT.startsWith("https://script.google.com/") || !KPD_FORMS_ENDPOINT.endsWith("/exec")) {
+      event.preventDefault();
+
+      if (status) {
+        status.textContent = `The form service is unavailable. Please email ${KPD_CONTACT_EMAIL}.`;
+        status.hidden = false;
+      }
+      return;
+    }
+
+    form.dataset.submitting = "true";
+    window.sessionStorage.setItem("kpdQuoteSubmittedAt", String(Date.now()));
+
+    if (submitButton instanceof HTMLButtonElement) {
+      submitButton.disabled = true;
+      submitButton.setAttribute("aria-busy", "true");
+      submitButton.textContent = "Sending quote request…";
+    }
+
+    if (status) {
+      status.textContent = "Sending your quote request securely…";
+      status.hidden = false;
+    }
   });
-});
+}

@@ -18,6 +18,9 @@ const QUOTE_HEADERS = [
   "Budget Range",
   "Brief Description",
   "Source",
+  "Property Type",
+  "Urgency",
+  "Preferred Contact Method",
 ];
 const REVIEW_HEADERS = [
   "Timestamp",
@@ -72,9 +75,12 @@ function handleQuoteSubmission_(values) {
     formatField_("Email", values, "email"),
     formatField_("Phone", values, "phone"),
     formatField_("Suburb", values, "suburb"),
+    formatField_("Property Type", values, "property_type"),
     formatField_("Job Type", values, "job_type"),
     formatField_("Preferred Timeframe", values, "preferred_timeframe"),
+    formatField_("Urgency", values, "urgency"),
     formatField_("Budget Range", values, "budget_range"),
+    formatField_("Preferred Contact Method", values, "preferred_contact_method"),
     formatField_("Brief Description", values, "brief_description"),
     formatField_("Source", values, "source"),
     "Submitted At: " + new Date().toLocaleString(),
@@ -100,6 +106,9 @@ function appendQuoteSubmission_(values) {
     valueFor_(values, "budget_range"),
     valueFor_(values, "brief_description"),
     valueFor_(values, "source") || DEFAULT_SOURCE,
+    valueFor_(values, "property_type"),
+    valueFor_(values, "urgency"),
+    valueFor_(values, "preferred_contact_method"),
   ]);
 }
 
@@ -172,15 +181,7 @@ function ensureReviewHeaders_(sheet) {
 
 function ensureHeaders_(sheet, headers) {
   const headerRange = sheet.getRange(1, 1, 1, headers.length);
-  const currentHeaders = headerRange.getValues()[0];
-  const hasHeaders = currentHeaders.some(function (value) {
-    return String(value || "").trim() !== "";
-  });
-
-  if (!hasHeaders) {
-    headerRange.setValues([headers]);
-  }
-
+  headerRange.setValues([headers]);
   headerRange.setFontWeight("bold");
   sheet.setFrozenRows(1);
 }

@@ -4,19 +4,18 @@ Static GitHub Pages website for `https://kpdprojects.com.au/`.
 
 ## Included
 
-- Homepage hero with trust points
-- Services, why choose, process, about, service areas and contact sections
-- Future-ready project gallery and client reviews sections
-- Compliance/trust disclaimer
-- Quote request form with photo upload field
-- Thank-you page
-- Instagram and TikTok social links
-- Local hero image asset at `assets/kpd-projects-hero.png`
-- Company logos at `assets/kpd-logo-light.jpeg` and `assets/kpd-logo-dark.jpeg`
+- Concise homepage hero and responsive navigation
+- Featured Gordon, Willoughby and Newtown projects using approved customer reviews
+- Accessible before-and-after sliders for aligned photos
+- Honest side-by-side treatment for the Willoughby photos, which use different viewpoints
+- Recent jobs gallery using supplied project-stage photos
+- Accessible quote form with inline validation and duplicate-submit protection
+- Responsive 800px and 1400px project image variants, with originals retained as source assets
+- Thank-you page and existing KPD Projects branding
 
 ## Enquiry Delivery
 
-The quote and review forms post to the Google Apps Script Web App endpoint configured in `script.js`.
+The quote form posts to the Google Apps Script Web App endpoint configured in `script.js`.
 
 Quote enquiries are emailed to:
 
@@ -24,7 +23,7 @@ Quote enquiries are emailed to:
 kpdprojectsau@gmail.com
 ```
 
-Quote and review submissions are saved to this private Google Sheet. Reviews are not automatically published on the website:
+Quote submissions are saved to this private Google Sheet:
 
 ```text
 https://docs.google.com/spreadsheets/d/1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8/edit?gid=0#gid=0
@@ -36,18 +35,15 @@ The public contact email shown on the site is:
 kpdprojectsau@gmail.com
 ```
 
-Google Apps Script deployment instructions are in:
+Google Apps Script source and deployment instructions are in:
 
 ```text
 google-apps-script/SETUP.md
 ```
 
-The social call-to-action links point to:
+The deployed Apps Script accepts text fields but does not store multipart file uploads. The website therefore keeps photo selection local, clearly tells visitors to email photos separately, and includes selected filenames in the enquiry details. No photo is silently presented as uploaded.
 
-```text
-Instagram: https://www.instagram.com/kpd.projects?igsh=OG82MW1veHdzdWIy&utm_source=qr
-TikTok: https://www.tiktok.com/@kpd.projects?_r=1&_t=ZS-96GnorOEDYo
-```
+The live backend receives the new property type, urgency and preferred contact fields inside the brief description for backwards compatibility. The repository Apps Script source also has dedicated columns for these values for its next deployment.
 
 ## Deployment
 
@@ -59,8 +55,4 @@ The form confirmation URL is:
 https://kpdprojects.com.au/thanks.html
 ```
 
-The review confirmation URL is:
-
-```text
-https://kpdprojects.com.au/review-thank-you.html
-```
+Project facts, reviews and image roles originate from the supplied KPD Projects handoff manifest.
