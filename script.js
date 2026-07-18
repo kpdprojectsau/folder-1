@@ -36,11 +36,11 @@ document.querySelectorAll("[data-comparison]").forEach((comparison) => {
 
   const updateComparison = () => {
     const value = Math.min(100, Math.max(0, Number(range.value)));
-    const beforeValue = 100 - value;
+    const afterValue = 100 - value;
     comparison.style.setProperty("--position", `${value}%`);
     range.setAttribute(
       "aria-valuetext",
-      `${beforeValue}% before and ${value}% after visible`,
+      `${value}% before and ${afterValue}% after visible`,
     );
   };
 
