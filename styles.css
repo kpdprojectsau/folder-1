@@ -520,18 +520,6 @@ h3 {
   object-position: center 58%;
 }
 
-.comparison-tiling-stairs .comparison-before {
-  object-position: center 49%;
-}
-
-.comparison-tiling-stairs .comparison-after {
-  object-position: center 52%;
-}
-
-.comparison-floating-stairs .comparison-image {
-  object-position: center 54%;
-}
-
 .comparison-after {
   clip-path: inset(0 0 0 var(--position));
 }
@@ -739,75 +727,26 @@ h3 {
   color: var(--muted);
 }
 
-.tiling-comparison-grid {
-  display: grid;
-  max-width: 1080px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  margin-inline: auto;
+.tiling-project-card .comparison-frame {
+  background: var(--navy);
 }
 
-.tiling-project-card {
-  display: flex;
-  min-width: 0;
-  overflow: hidden;
-  flex-direction: column;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--white);
-  box-shadow: 0 14px 38px rgba(7, 21, 40, 0.09);
-}
-
-.tiling-project-card .comparison {
-  min-height: auto;
-}
-
-.tiling-project-copy {
-  flex: 1;
-  padding: 24px 26px 28px;
+.tiling-project-card .comparison-image {
+  object-fit: contain;
+  object-position: center;
 }
 
 .tiling-project-copy h4 {
-  margin: 0;
+  margin: 0 0 14px;
   color: var(--navy);
-  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
   font-weight: 750;
-  line-height: 1.15;
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
-.tiling-project-details {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin: 18px 0 16px;
-}
-
-.tiling-project-details div {
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-}
-
-.tiling-project-details dt {
-  color: var(--muted);
-  font-size: 0.69rem;
-  font-weight: 750;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.tiling-project-details dd {
-  margin: 2px 0 0;
-  color: var(--navy);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.tiling-project-description {
-  margin-bottom: 0;
-  color: var(--muted);
-  font-size: 0.94rem;
-  line-height: 1.6;
+.tiling-project-facts .project-fact-wide {
+  grid-column: 1 / -1;
 }
 
 .about-grid {
@@ -1154,16 +1093,9 @@ h3 {
   .contact-copy {
     position: static;
   }
-}
-
-@media (max-width: 820px) {
-  .tiling-comparison-grid {
-    grid-template-columns: 1fr;
-  }
 
   .tiling-project-card {
-    width: min(100%, 560px);
-    margin-inline: auto;
+    grid-template-columns: minmax(320px, 44%) minmax(0, 1fr);
   }
 }
 
@@ -1280,21 +1212,13 @@ h3 {
   }
 
   .tiling-project-card {
+    grid-template-columns: 1fr;
     width: min(100%, 380px);
+    margin-inline: auto;
   }
 
-  .tiling-project-copy {
-    padding: 20px 20px 23px;
-  }
-
-  .tiling-project-details {
-    gap: 12px;
-    margin-block: 16px 14px;
-  }
-
-  .tiling-project-description {
-    font-size: 0.9rem;
-    line-height: 1.55;
+  .tiling-project-copy h4 {
+    font-size: 1.65rem;
   }
 
   .service-grid,
