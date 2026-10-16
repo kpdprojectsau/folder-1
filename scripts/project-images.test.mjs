@@ -18,6 +18,13 @@ const fixtures = [
   ["small.jpg", 120, 80], ["rotated.jpg", 800, 1200],
 ];
 
+test("optional editor photo groups start empty instead of creating incomplete pairs", async () => {
+  const config = await readFile(path.join(repository, "admin/config.yml"), "utf8");
+  for (const field of ["scope", "gallery", "before_after", "redirect_from"]) {
+    assert.match(config, new RegExp(`name: ${field}\\n\\s+widget: list\\n\\s+required: false\\n\\s+default: \\[\\]\\n\\s+min: 0`));
+  }
+});
+
 before(async () => {
   fixtureRoot = await mkdtemp(path.join(os.tmpdir(), "kpd-photo-tests-"));
   await mkdir(path.join(fixtureRoot, "assets/projects/uploads"), { recursive: true });

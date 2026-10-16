@@ -127,6 +127,8 @@ collections:
         name: scope
         widget: list
         required: false
+        default: []
+        min: 0
         field: { label: Improvement, name: improvement, widget: string }
       - label: Completion date
         name: completion_date
@@ -156,6 +158,8 @@ collections:
         name: gallery
         widget: list
         required: false
+        default: []
+        min: 0
         collapsed: true
         summary: "{{fields.caption}}"
         hint: "Mix photo shapes freely. No cropping or manual resizing is required; website copies are generated when published."
@@ -168,6 +172,8 @@ collections:
         name: before_after
         widget: list
         required: false
+        default: []
+        min: 0
         collapsed: true
         summary: "{{fields.label}}"
         fields:
@@ -203,5 +209,7 @@ collections:
         name: redirect_from
         widget: list
         required: false
+        default: []
+        min: 0
         hint: Add old site paths here when a published project URL changes.
         field: { label: Old path, name: old_path, widget: string }
