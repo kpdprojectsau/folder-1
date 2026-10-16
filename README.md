@@ -25,7 +25,7 @@ Visitors need no third-party layout or image-processing library. The build uses 
 5. Upload a cover image: portrait, landscape or square JPEG, PNG or WebP, up to 12 MB. Add clear alternative text that describes what is visible. No manual cropping or resizing is needed. Export HEIC phone photos as JPEG first.
 6. Add gallery photos, captions and alternative text. Add a before-and-after pair only when suitable matching photos are available.
 7. Leave **Publication status** as **Draft** while checking the editor preview.
-8. Save the draft. When it is ready, set the status to **Published** and use the editorial workflow’s **Publish** action.
+8. Save the draft. When ready, set **Publication status → Published**, save again, then set the toolbar's **Status → Ready** and choose **Publish → Publish now**.
 
 Do not add a completion date when it is unknown. Optional fields disappear from the public page when left blank. You can mix different photo shapes in the same gallery. Upload once, check the preview, then publish; the build creates all required website copies. See `PHOTO_GUIDE.md` for details.
 
@@ -51,12 +51,12 @@ Open a project and switch **Feature on homepage** on or off. Use **Display order
 
 - The editor provides a project-card preview while content is being entered.
 - **Save** creates or updates a draft in the editorial workflow.
-- **Publish** merges the approved content into `main`.
+- Set the toolbar's workflow **Status → Ready**, then **Publish → Publish now** merges the approved content into `main`. This toolbar status is separate from the job's **Publication status** field.
 - GitHub Actions then checks the content, builds the static pages and deploys them to GitHub Pages.
 
 ## One-time editor and hosting setup
 
-The content model, editor screens, publishing workflow and a secure GitHub App connection are implemented. Finish the account approval screens before claiming the public editor is live:
+The public website, GitHub Pages Actions source and repository-limited GitHub App connection are configured. Owner sign-in, saving/removing an unpublished edit, photo upload and publishing through the editor were verified on 17 October 2026. The steps below are retained for recovery or a future owner transfer; they are not outstanding daily setup tasks. Do not recreate the app when simply adding a job. See `OPERATIONS_AUDIT.md` for the handover and verification record.
 
 1. In the GitHub repository, open **Settings → Pages** and set **Source** to **GitHub Actions**. The included `.github/workflows/deploy-pages.yml` workflow will then build and publish every approved change.
 2. Open `https://kpd-projects-portfolio.pastelpoppy3.chatgpt.site/editor-setup`, sign in to the private Site and use the **kpdprojectsau** GitHub account to register the prepared private GitHub App. Review and approve its contents/pull-requests write and metadata read permissions. Install it on **Only select repositories → folder-1**, not all repositories. The connection stores its client credentials encrypted in managed Sites D1; no secrets need to be copied into files, chat or browser source. No Netlify account is required.
@@ -64,7 +64,9 @@ The content model, editor screens, publishing workflow and a secure GitHub App c
 
 The editor has a built-in plain-English guide at `/admin/guide.html`. Publishing updates the public GitHub Pages website; the private review Site is separately deployed and does not automatically follow routine CMS commits. The public domain is not moved to Sites, and the private Site audience is preserved.
 
-For an interim edit before account approval, open a file under `content/projects/` on GitHub, choose Edit, update only the JSON fields and commit through a pull request. Upload original JPEG/PNG/WebP files into `assets/projects/uploads/` and use their `/assets/projects/uploads/filename.jpg` paths. After the public release workflow is enabled, merging the change builds all website copies automatically. Until then, do not merge a source-only release into a legacy root-directory Pages deployment.
+As an optional GitHub-only fallback, open a file under `content/projects/`, choose Edit, update only the JSON fields and commit through a pull request. Upload original JPEG/PNG/WebP files into `assets/projects/uploads/` and use their `/assets/projects/uploads/filename.jpg` paths. Merging the change builds all website copies automatically. Keep the Pages source set to GitHub Actions, not a legacy root-directory deployment.
+
+`origin/main` on GitHub is the authoritative content source after CMS edits. Before a later code update or private-preview deployment, fetch and merge current GitHub content so an older private Site snapshot cannot overwrite newly added jobs or photos. The Sites source repository remains the deployment source for the private preview/authentication Worker; it does not replace the public repository as the daily editing source.
 
 Visitors cannot edit content: the public editor requires GitHub-backed authentication and repository permission. Do not enable open registration.
 
@@ -84,7 +86,7 @@ Then open `http://localhost:4173/`.
 
 The runtime secret `EDITOR_AUTH_KEY` is managed in Sites (name only in `.env.example`). Keep it: changing it makes the encrypted app configuration unreadable. The Drizzle schema and schema-only migrations live in `db/` and `drizzle/`. `npm run db:generate` generates later migrations; Sites applies hosted migrations during deployment. Do not create tables during web requests. GitHub Pages needs neither this secret nor a database. Authentication tests use in-memory SQLite and mock GitHub responses, never live client secrets or enquiries.
 
-Run `npm run test:editor`, `npm run test:images` and `npm run check` before publishing code. Development-only Drizzle tooling is not shipped to browsers or the Worker.
+Run `npm run test:editor`, `npm run test:images`, `npm run test:forms` and `npm run check` before publishing code. The form tests execute the real Apps Script source using in-memory Sheets/email substitutes; they never contact Google or deliver an enquiry. Development-only Drizzle tooling is not shipped to browsers or the Worker.
 
 ## Backups and portability
 
