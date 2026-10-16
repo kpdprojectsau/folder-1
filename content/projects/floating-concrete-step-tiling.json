@@ -1,0 +1,46 @@
+{
+  "title": "Floating Concrete Step Tiling",
+  "slug": "floating-concrete-step-tiling-marsden-park",
+  "status": "published",
+  "primary_category": "tiling",
+  "categories": ["tiling", "outdoor-works"],
+  "location": "Marsden Park",
+  "summary": "We repaired and tiled three floating concrete steps, creating a clean, uniform finish while preserving the modern design.",
+  "description": "This project involved repairing and tiling three floating concrete steps in Marsden Park. The completed tiling created a clean, uniform finish while preserving the modern floating-step design.",
+  "scope": [
+    "Repaired three floating concrete steps",
+    "Installed a clean, uniform tiled finish",
+    "Preserved the modern floating-step design"
+  ],
+  "completion_date": "",
+  "cover_image": "/assets/projects/kpd-05-tiled-entry/after-primary-1400.jpg",
+  "cover_alt": "Floating entry stairs in Marsden Park after the completed tiling work.",
+  "cover_caption": "Completed floating step tiling",
+  "gallery": [
+    {
+      "image": "/assets/projects/kpd-05-tiled-entry/before-primary-1400.jpg",
+      "alt": "Floating entry stairs in Marsden Park before the completed tiling work.",
+      "caption": "Entry steps before tiling"
+    },
+    {
+      "image": "/assets/projects/kpd-05-tiled-entry/after-primary-1400.jpg",
+      "alt": "Floating entry stairs in Marsden Park after the completed tiling work.",
+      "caption": "Completed floating steps"
+    }
+  ],
+  "before_after": [
+    {
+      "label": "Floating concrete step tiling",
+      "before_image": "/assets/projects/kpd-05-tiled-entry/before-primary-1400.jpg",
+      "before_alt": "Floating entry stairs in Marsden Park before the completed tiling work.",
+      "before_caption": "Before",
+      "after_image": "/assets/projects/kpd-05-tiled-entry/after-primary-1400.jpg",
+      "after_alt": "Floating entry stairs in Marsden Park after the completed tiling work.",
+      "after_caption": "After"
+    }
+  ],
+  "featured": false,
+  "display_order": 5,
+  "review": null,
+  "redirect_from": []
+}

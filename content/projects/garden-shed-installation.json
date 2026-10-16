@@ -1,0 +1,50 @@
+{
+  "title": "Garden Shed Installation",
+  "slug": "garden-shed-installation-willoughby",
+  "status": "published",
+  "primary_category": "outdoor-works",
+  "categories": ["outdoor-works"],
+  "location": "Willoughby",
+  "summary": "We assembled and installed a new 3 m x 3 m garden shed, giving the property practical, weather-protected outdoor storage.",
+  "description": "A new garden shed was assembled and installed to give the property useful, weather-protected storage while keeping the surrounding garden area practical and tidy.",
+  "scope": [
+    "Assembled and installed a 3 m x 3 m garden shed",
+    "Created practical, weather-protected outdoor storage"
+  ],
+  "completion_date": "",
+  "cover_image": "/assets/projects/kpd-01-shed-willoughby/after-primary-1400.jpg",
+  "cover_alt": "Completed green 3 m by 3 m shed in the Willoughby garden.",
+  "cover_caption": "Completed garden shed",
+  "gallery": [
+    {
+      "image": "/assets/projects/kpd-01-shed-willoughby/before-wide-1400.jpg",
+      "alt": "Willoughby garden area before construction of the new shed.",
+      "caption": "Garden area before installation"
+    },
+    {
+      "image": "/assets/projects/kpd-01-shed-willoughby/after-primary-1400.jpg",
+      "alt": "Completed green 3 m by 3 m shed in the Willoughby garden.",
+      "caption": "Completed shed"
+    }
+  ],
+  "before_after": [
+    {
+      "label": "Garden shed installation",
+      "before_image": "/assets/projects/kpd-01-shed-willoughby/before-primary-1400.jpg",
+      "before_alt": "Willoughby garden area before construction of the new shed.",
+      "before_caption": "Before",
+      "after_image": "/assets/projects/kpd-01-shed-willoughby/after-primary-1400.jpg",
+      "after_alt": "Completed green 3 m by 3 m shed in the Willoughby garden.",
+      "after_caption": "After"
+    }
+  ],
+  "featured": false,
+  "display_order": 4,
+  "review": {
+    "quote": "Great job, after realising they had under-scoped the work and called an additional resource in.",
+    "name": "John C",
+    "context": "Willoughby customer",
+    "rating": 5
+  },
+  "redirect_from": []
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Outdoor Staircase Tile Repair",
+  "slug": "outdoor-staircase-tile-repair-epping",
+  "status": "published",
+  "primary_category": "tiling",
+  "categories": ["tiling", "outdoor-works"],
+  "location": "Epping",
+  "summary": "We repaired and retiled a damaged outdoor staircase, restoring a clean, consistent finish across the stairs and landings.",
+  "description": "This project involved repairing and retiling a damaged outdoor staircase in Epping. The staircase was restored with a clean, consistent tiled finish, improving the overall appearance and presentation of the outdoor area.",
+  "scope": [
+    "Repaired the damaged outdoor staircase",
+    "Retiled the stairs and landings",
+    "Created a clean, consistent outdoor finish"
+  ],
+  "completion_date": "",
+  "cover_image": "/assets/projects/kpd-04-tiling-stairs/after-primary-1400.jpg",
+  "cover_alt": "Exterior stairs and landings in Epping after the completed tiling work.",
+  "cover_caption": "Completed staircase tiling",
+  "gallery": [
+    {
+      "image": "/assets/projects/kpd-04-tiling-stairs/before-primary-960.jpg",
+      "alt": "Exterior tiled stairs and landings in Epping before the completed tiling work.",
+      "caption": "Staircase before repair"
+    },
+    {
+      "image": "/assets/projects/kpd-04-tiling-stairs/after-primary-1400.jpg",
+      "alt": "Exterior stairs and landings in Epping after the completed tiling work.",
+      "caption": "Completed tiled finish"
+    }
+  ],
+  "before_after": [
+    {
+      "label": "Outdoor staircase tile repair",
+      "before_image": "/assets/projects/kpd-04-tiling-stairs/before-primary-960.jpg",
+      "before_alt": "Exterior tiled stairs and landings in Epping before the completed tiling work.",
+      "before_caption": "Before",
+      "after_image": "/assets/projects/kpd-04-tiling-stairs/after-primary-1400.jpg",
+      "after_alt": "Exterior stairs and landings in Epping after the completed tiling work.",
+      "after_caption": "After"
+    }
+  ],
+  "featured": true,
+  "display_order": 3,
+  "review": null,
+  "redirect_from": []
+}

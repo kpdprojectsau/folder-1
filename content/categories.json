@@ -1,0 +1,25 @@
+{
+  "categories": [
+    {
+      "slug": "outdoor-works",
+      "name": "Outdoor works",
+      "description": "Paths, sheds and practical outdoor improvements.",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "slug": "tiling",
+      "name": "Tiling",
+      "description": "Outdoor tiling, repairs and refreshed finishes.",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "slug": "commercial-works",
+      "name": "Commercial works",
+      "description": "Practical commercial demolition and site preparation.",
+      "order": 3,
+      "visible": true
+    }
+  ]
+}

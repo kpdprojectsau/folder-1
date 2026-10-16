@@ -1,0 +1,207 @@
+backend:
+  name: github
+  repo: kpdprojectsau/folder-1
+  branch: main
+  squash_merges: true
+  base_url: https://kpd-projects-portfolio.pastelpoppy3.chatgpt.site
+  auth_endpoint: auth/github
+
+publish_mode: editorial_workflow
+local_backend: true
+site_url: https://kpdprojects.com.au
+display_url: https://kpdprojects.com.au
+logo_url: https://kpdprojects.com.au/assets/kpd-logo-dark.jpeg
+media_folder: assets/projects/uploads
+public_folder: /assets/projects/uploads
+
+collections:
+  - label: Portfolio settings
+    name: portfolio_settings
+    files:
+      - label: Categories
+        name: categories
+        file: content/categories.json
+        format: json
+        fields:
+          - label: Categories
+            label_singular: Category
+            name: categories
+            widget: list
+            summary: "{{fields.name}}"
+            add_to_top: false
+            fields:
+              - label: Name
+                name: name
+                widget: string
+                hint: The public category name. You can rename this without changing existing links.
+              - label: URL name
+                name: slug
+                widget: string
+                pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Use lower-case letters, numbers and hyphens only."]
+                hint: Used in shareable category links. Avoid changing it after publication.
+              - label: Short description
+                name: description
+                widget: text
+                required: false
+              - label: Display order
+                name: order
+                widget: number
+                value_type: int
+                min: 1
+              - label: Show category
+                name: visible
+                widget: boolean
+                default: true
+                hint: Empty categories are hidden automatically even when this is on.
+
+  - label: Completed projects
+    label_singular: Completed project
+    name: projects
+    folder: content/projects
+    format: json
+    extension: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: "{{fields.slug}}"
+    summary: "{{title}} — {{location}}"
+    sortable_fields: [display_order, title, location, completion_date]
+    view_filters:
+      - label: Published
+        field: status
+        pattern: published
+      - label: Drafts
+        field: status
+        pattern: draft
+      - label: Featured
+        field: featured
+        pattern: "true"
+    fields:
+      - label: Project title
+        name: title
+        widget: string
+      - label: Page URL
+        name: slug
+        widget: string
+        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Use lower-case letters, numbers and hyphens only."]
+        hint: "Example: side-access-path-upgrade-gordon. Avoid changing after publication."
+      - label: Publication status
+        name: status
+        widget: select
+        options:
+          - { label: Draft, value: draft }
+          - { label: Published, value: published }
+        default: draft
+      - label: Primary category
+        name: primary_category
+        widget: relation
+        collection: portfolio_settings
+        file: categories
+        search_fields: ["categories.*.name"]
+        display_fields: ["categories.*.name"]
+        value_field: "categories.*.slug"
+      - label: All categories
+        name: categories
+        widget: relation
+        collection: portfolio_settings
+        file: categories
+        multiple: true
+        min: 1
+        search_fields: ["categories.*.name"]
+        display_fields: ["categories.*.name"]
+        value_field: "categories.*.slug"
+        hint: Include the primary category. Add any other categories that also describe the job.
+      - label: Suburb or general location
+        name: location
+        widget: string
+      - label: Short summary
+        name: summary
+        widget: text
+        hint: One or two sentences used on project cards and in search previews.
+      - label: Detailed description
+        name: description
+        widget: text
+        required: false
+      - label: Scope of work
+        label_singular: Improvement
+        name: scope
+        widget: list
+        required: false
+        field: { label: Improvement, name: improvement, widget: string }
+      - label: Completion date
+        name: completion_date
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        format: YYYY-MM-DD
+        required: false
+      - label: Cover image
+        name: cover_image
+        widget: image
+        choose_url: false
+        hint: "Upload a portrait, landscape or square JPEG, PNG or WebP. Website sizes are created automatically on publication. Export HEIC photos as JPEG first."
+        media_library:
+          config:
+            max_file_size: 12000000
+      - label: Cover image alternative text
+        name: cover_alt
+        widget: string
+        hint: Describe what is visible for visitors who cannot see the image.
+      - label: Cover image caption
+        name: cover_caption
+        widget: string
+        required: false
+      - label: Photo gallery
+        label_singular: Gallery photo
+        name: gallery
+        widget: list
+        required: false
+        collapsed: true
+        summary: "{{fields.caption}}"
+        hint: "Mix photo shapes freely. No cropping or manual resizing is required; website copies are generated when published."
+        fields:
+          - { label: Photo, name: image, widget: image, choose_url: false, hint: "Use JPEG, PNG or WebP. Export HEIC as JPEG first.", media_library: { config: { max_file_size: 12000000 } } }
+          - { label: Alternative text, name: alt, widget: string }
+          - { label: Caption, name: caption, widget: string, required: false }
+      - label: Before-and-after comparisons
+        label_singular: Before-and-after pair
+        name: before_after
+        widget: list
+        required: false
+        collapsed: true
+        summary: "{{fields.label}}"
+        fields:
+          - { label: Comparison label, name: label, widget: string, required: false }
+          - { label: Before photo, name: before_image, widget: image, choose_url: false, hint: "JPEG, PNG or WebP; HEIC must be exported as JPEG.", media_library: { config: { max_file_size: 12000000 } } }
+          - { label: Before alternative text, name: before_alt, widget: string }
+          - { label: Before caption, name: before_caption, widget: string, default: Before, required: false }
+          - { label: After photo, name: after_image, widget: image, choose_url: false, hint: "JPEG, PNG or WebP; HEIC must be exported as JPEG.", media_library: { config: { max_file_size: 12000000 } } }
+          - { label: After alternative text, name: after_alt, widget: string }
+          - { label: After caption, name: after_caption, widget: string, default: After, required: false }
+      - label: Feature on homepage
+        name: featured
+        widget: boolean
+        default: false
+        hint: The homepage shows up to three featured projects with a spread across primary categories.
+      - label: Display order
+        name: display_order
+        widget: number
+        value_type: int
+        min: 1
+        default: 100
+      - label: Customer review
+        name: review
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: Quote, name: quote, widget: text, required: false }
+          - { label: Customer name, name: name, widget: string, required: false }
+          - { label: Context, name: context, widget: string, required: false }
+          - { label: Rating, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
+      - label: Previous URLs
+        name: redirect_from
+        widget: list
+        required: false
+        hint: Add old site paths here when a published project URL changes.
+        field: { label: Old path, name: old_path, widget: string }

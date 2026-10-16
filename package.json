@@ -1,0 +1,17 @@
+{
+  "name": "kpd-projects-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test:images": "node --test scripts/project-images.test.mjs",
+    "test:editor": "node --test scripts/editor-auth.test.mjs",
+    "db:generate": "drizzle-kit generate"
+  },
+  "devDependencies": {
+    "sharp": "0.35.5",
+    "drizzle-orm": "0.45.4",
+    "drizzle-kit": "0.31.11"
+  }
+}

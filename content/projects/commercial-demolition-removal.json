@@ -1,0 +1,61 @@
+{
+  "title": "Commercial Demolition & Removal",
+  "slug": "commercial-demolition-removal-newtown",
+  "status": "published",
+  "primary_category": "commercial-works",
+  "categories": ["commercial-works"],
+  "location": "Newtown",
+  "summary": "We demolished the existing brick wall and sink area, cleared the workspace and disposed of all brick rubble and demolition waste off site.",
+  "description": "The existing brick wall, sink and counter area were removed before the workspace was cleared and all rubble and demolition waste was taken off site.",
+  "scope": [
+    "Demolished the existing brick wall and sink area",
+    "Cleared the commercial workspace",
+    "Removed brick rubble and demolition waste off site"
+  ],
+  "completion_date": "",
+  "cover_image": "/assets/projects/kpd-02-demolition-newtown/after-wide-1400.jpg",
+  "cover_alt": "Wide view of the cleared commercial floor area after demolition in Newtown.",
+  "cover_caption": "Cleared commercial area",
+  "gallery": [
+    {
+      "image": "/assets/projects/kpd-02-demolition-newtown/storefront-context-1400.jpg",
+      "alt": "Commercial storefront context for the Newtown demolition project.",
+      "caption": "Commercial site"
+    },
+    {
+      "image": "/assets/projects/kpd-02-demolition-newtown/work-in-progress-01-1400.jpg",
+      "alt": "KPD Projects worker dismantling an existing commercial counter.",
+      "caption": "Work in progress"
+    },
+    {
+      "image": "/assets/projects/kpd-02-demolition-newtown/waste-removal-1400.jpg",
+      "alt": "Trailer carrying brick rubble and demolition waste for disposal.",
+      "caption": "Waste removal"
+    },
+    {
+      "image": "/assets/projects/kpd-02-demolition-newtown/after-overview-1400.jpg",
+      "alt": "Cleared floor area after the brick wall and sink were removed.",
+      "caption": "Cleared area"
+    }
+  ],
+  "before_after": [
+    {
+      "label": "Commercial demolition",
+      "before_image": "/assets/projects/kpd-02-demolition-newtown/before-primary-1400.jpg",
+      "before_alt": "Existing brick wall, sink and counter before commercial demolition in Newtown.",
+      "before_caption": "Before",
+      "after_image": "/assets/projects/kpd-02-demolition-newtown/after-primary-1400.jpg",
+      "after_alt": "Cleared floor area after removal of the brick wall and sink in Newtown.",
+      "after_caption": "After"
+    }
+  ],
+  "featured": true,
+  "display_order": 2,
+  "review": {
+    "quote": "Perfect work, punctuality and good communication.",
+    "name": "Pablo M.",
+    "context": "Newtown customer",
+    "rating": 5
+  },
+  "redirect_from": []
+}
