@@ -99,15 +99,23 @@ test("a newly added job with mixed photos builds without template edits", async 
     for (const file of ["kpd-logo-dark.jpeg", "kpd-projects-hero.png", "kpd-projects-hero.jpg", "kpd-projects-hero-960.jpg"]) {
       await cp(path.join(repository, "assets", file), path.join(site, "assets", file));
     }
-    await writeFile(path.join(site, "content/categories.json"), JSON.stringify({ categories: [{ name: "Test category", slug: "test", order: 1, visible: true }] }));
+    await writeFile(path.join(site, "content/categories.json"), JSON.stringify({ categories: [
+      { name: "Test category", slug: "test", order: 1, visible: true },
+      { name: "Empty category", slug: "empty", order: 2, visible: true },
+      { name: "Hidden category", slug: "hidden", order: 3, visible: false },
+    ] }));
     const project = {
-      title: "Isolated mixed-photo test", slug: "isolated-test", status: "published", primary_category: "test", categories: ["test"],
+      title: "Isolated mixed-photo test", slug: "isolated-test", status: "published", primary_category: "test", categories: ["test", "hidden"],
       location: "Test fixture", summary: "Test content only", featured: true,
       cover_image: "/assets/projects/uploads/portrait.jpg", cover_alt: "Portrait fixture",
       gallery: fixtures.map(([name]) => ({ image: `/assets/projects/uploads/${name}`, alt: name })),
       before_after: [{ before_image: "/assets/projects/uploads/landscape.jpg", before_alt: "Before fixture", after_image: "/assets/projects/uploads/square.png", after_alt: "After fixture" }],
     };
     await writeFile(path.join(site, "content/projects/new-job.json"), JSON.stringify(project));
+    await writeFile(path.join(site, "content/projects/unpublished-job.json"), JSON.stringify({ ...project,
+      title: "Unpublished isolated fixture", slug: "unpublished-test", status: "draft",
+      cover_image: "/assets/projects/uploads/not-published-yet.heic",
+    }));
     execFileSync(process.execPath, [path.join(site, "scripts/build.mjs")]);
     const html = await readFile(path.join(site, "dist/client/projects/isolated-test/index.html"), "utf8");
     assert.equal((html.match(/data-gallery-index=/g) || []).length, fixtures.length);
@@ -115,6 +123,11 @@ test("a newly added job with mixed photos builds without template edits", async 
     assert.ok(!html.includes('data-gallery-src="/assets/projects/uploads/'));
     assert.ok((await readdir(path.join(site, "dist/client/assets/generated"))).length > fixtures.length);
     assert.deepEqual(JSON.parse(await readFile(path.join(site, "content/projects/new-job.json"), "utf8")), project);
+    await assert.rejects(stat(path.join(site, "dist/client/projects/unpublished-test")), /ENOENT/);
+    assert.ok(!(await readFile(path.join(site, "dist/client/sitemap.xml"), "utf8")).includes("unpublished-test"));
+    const portfolio = await readFile(path.join(site, "dist/client/projects/index.html"), "utf8");
+    assert.equal((portfolio.match(/data-project-card/g) || []).length, 1, "Multiple categories do not duplicate a job");
+    assert.ok(!portfolio.includes('data-filter="empty"') && !portfolio.includes('data-filter="hidden"'), "Empty and hidden categories do not create blank sections");
     let preview;
     vm.runInNewContext(await readFile(path.join(repository, "admin/preview.js"), "utf8"), {
       CMS: { registerPreviewTemplate: (_, template) => { preview = template; }, registerPreviewStyle: () => {} },

@@ -31,6 +31,8 @@ jobs:
         run: npm run test:images
       - name: Verify editor authentication
         run: npm run test:editor
+      - name: Verify enquiry backend without live submissions
+        run: npm run test:forms
       - name: Build and verify
         run: npm run check
       - name: Configure GitHub Pages

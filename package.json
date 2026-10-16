@@ -7,6 +7,7 @@
     "check": "node scripts/check.mjs",
     "test:images": "node --test scripts/project-images.test.mjs",
     "test:editor": "node --test scripts/editor-auth.test.mjs",
+    "test:forms": "node --test scripts/form-backend.test.mjs",
     "db:generate": "drizzle-kit generate"
   },
   "devDependencies": {
