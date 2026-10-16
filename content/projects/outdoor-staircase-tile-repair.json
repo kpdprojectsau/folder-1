@@ -1,21 +1,11 @@
 {
-  "title": "Outdoor Staircase Tile Repair",
-  "slug": "outdoor-staircase-tile-repair-epping",
-  "status": "published",
-  "primary_category": "tiling",
-  "categories": ["tiling", "outdoor-works"],
-  "location": "Epping",
-  "summary": "We repaired and retiled a damaged outdoor staircase, restoring a clean, consistent finish across the stairs and landings.",
-  "description": "This project involved repairing and retiling a damaged outdoor staircase in Epping. The staircase was restored with a clean, consistent tiled finish, improving the overall appearance and presentation of the outdoor area.",
-  "scope": [
-    "Repaired the damaged outdoor staircase",
-    "Retiled the stairs and landings",
-    "Created a clean, consistent outdoor finish"
-  ],
-  "completion_date": "",
-  "cover_image": "/assets/projects/kpd-04-tiling-stairs/after-primary-1400.jpg",
   "cover_alt": "Exterior stairs and landings in Epping after the completed tiling work.",
-  "cover_caption": "Completed staircase tiling",
+  "summary": "We repaired and retiled a damaged outdoor staircase, restoring a clean, consistent finish across the stairs and landings.",
+  "slug": "outdoor-staircase-tile-repair-epping",
+  "redirect_from": [],
+  "featured": true,
+  "display_order": 3,
+  "completion_date": "",
   "gallery": [
     {
       "image": "/assets/projects/kpd-04-tiling-stairs/before-primary-960.jpg",
@@ -28,6 +18,17 @@
       "caption": "Completed tiled finish"
     }
   ],
+  "status": "published",
+  "cover_image": "/assets/projects/uploads/epping-staircase-after.jpg",
+  "scope": [
+    "Repaired the damaged outdoor staircase",
+    "Retiled the stairs and landings",
+    "Created a clean, consistent outdoor finish"
+  ],
+  "location": "Epping",
+  "title": "Outdoor Staircase Tile Repair",
+  "review": null,
+  "primary_category": "tiling",
   "before_after": [
     {
       "label": "Outdoor staircase tile repair",
@@ -39,8 +40,10 @@
       "after_caption": "After"
     }
   ],
-  "featured": true,
-  "display_order": 3,
-  "review": null,
-  "redirect_from": []
+  "categories": [
+    "tiling",
+    "outdoor-works"
+  ],
+  "description": "This project involved repairing and retiling a damaged outdoor staircase in Epping. The staircase was restored with a clean, consistent tiled finish, improving the overall appearance and presentation of the outdoor area.",
+  "cover_caption": "Completed staircase tiling"
 }
