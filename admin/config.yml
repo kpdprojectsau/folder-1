@@ -204,7 +204,16 @@ collections:
           - { label: Quote, name: quote, widget: text, required: false }
           - { label: Customer name, name: name, widget: string, required: false }
           - { label: Context, name: context, widget: string, required: false }
-          - { label: Rating, name: rating, widget: number, value_type: int, min: 1, max: 5, required: false }
+          - label: Rating
+            name: rating
+            widget: select
+            required: false
+            options:
+              - { label: "1 star", value: 1 }
+              - { label: "2 stars", value: 2 }
+              - { label: "3 stars", value: 3 }
+              - { label: "4 stars", value: 4 }
+              - { label: "5 stars", value: 5 }
       - label: Previous URLs
         name: redirect_from
         widget: list
