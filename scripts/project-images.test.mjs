@@ -25,6 +25,12 @@ test("optional editor photo groups start empty instead of creating incomplete pa
   }
 });
 
+test("an unused optional review does not require a rating", async () => {
+  const config = await readFile(path.join(repository, "admin/config.yml"), "utf8");
+  assert.match(config, /name: rating\n\s+widget: select\n\s+required: false/);
+  assert.doesNotMatch(config, /name: rating, widget: number/);
+});
+
 before(async () => {
   fixtureRoot = await mkdtemp(path.join(os.tmpdir(), "kpd-photo-tests-"));
   await mkdir(path.join(fixtureRoot, "assets/projects/uploads"), { recursive: true });
