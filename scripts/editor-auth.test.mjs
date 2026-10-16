@@ -135,6 +135,7 @@ test("successful callback restricts token to this repo and uses exact-origin pop
   assert.equal(calls[0].options.body.get("repository_id"), "1229704984");
   assert.ok(calls[0].options.body.get("code_verifier"));
   assert.equal(response.headers.get("cache-control"), "no-store");
+  assert.equal(response.headers.get("referrer-policy"), "no-referrer");
   assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
   assert.match(response.headers.get("set-cookie"), /Max-Age=0/);
   assert.equal(db.prepare("SELECT count(*) AS n FROM editor_auth").get().n, 1);
