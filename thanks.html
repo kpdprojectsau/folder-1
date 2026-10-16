@@ -2,11 +2,11 @@
 <html lang="en-AU">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="robots" content="noindex">
     <title>Quote request received | KPD Projects</title>
     <link rel="icon" href="assets/kpd-logo-dark.jpeg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=3">
   </head>
   <body class="thanks-page">
     <main class="thanks-card" data-thanks-card hidden>
@@ -29,6 +29,7 @@
 
       if (isRecentSubmission) {
         sessionStorage.removeItem("kpdQuoteSubmittedAt");
+        sessionStorage.removeItem("kpdQuoteDraft");
         document.querySelector("[data-thanks-card]").hidden = false;
       } else {
         window.location.replace("./#contact");

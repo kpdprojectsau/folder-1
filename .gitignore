@@ -1,0 +1,9 @@
+dist/
+.DS_Store
+.playwright-cli/
+output/playwright/
+node_modules/
+.cache/project-images/
+.env
+.env.local
+.dev.vars

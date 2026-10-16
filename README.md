@@ -1,58 +1,111 @@
-# KPD Projects Website
+# KPD Projects website
 
-Static GitHub Pages website for `https://kpdprojects.com.au/`.
+The website remains a static GitHub Pages site for `https://kpdprojects.com.au/`. Its public design, contact details and Google Apps Script enquiry flow are preserved, while the project portfolio is now generated from structured content files.
 
-## Included
+## How the portfolio works
 
-- Concise homepage hero and responsive navigation
-- Featured Gordon, Willoughby and Newtown projects using approved customer reviews
-- Accessible before-and-after sliders for aligned photos
-- Honest side-by-side treatment for the Willoughby photos, which use different viewpoints
-- Recent jobs gallery using supplied project-stage photos
-- Accessible quote form with inline validation and duplicate-submit protection
-- Responsive 800px and 1400px project image variants, with originals retained as source assets
-- Thank-you page and existing KPD Projects branding
+- Every job is stored once in `content/projects/`.
+- Categories, their names, order and visibility are stored in `content/categories.json`.
+- `npm run build` creates the homepage selection, the filterable portfolio, each project page, redirects and the sitemap in `dist/client/`. This directory alone is published by GitHub Pages. The private Site also uses `dist/server/index.js` for the editor connection.
+- Draft projects are never included in the public build.
+- Empty or hidden categories are not displayed.
+- A project may use several categories without creating duplicate cards or pages.
+- The homepage selects up to three featured projects and prioritises a spread of primary categories.
 
-## Enquiry Delivery
+Visitors need no third-party layout or image-processing library. The build uses pinned Sharp 0.35.5 to create compressed, correctly oriented WebP copies of each project photo automatically. Original uploads stay in `assets/projects/`; generated website sizes go into `dist/client/assets/generated/`. Photo shapes are preserved, thumbnails have sensible height limits, and galleries are lazy-loaded.
 
-The quote form posts to the Google Apps Script Web App endpoint configured in `script.js`.
+## Plain-English editing guide
 
-Quote enquiries are emailed to:
+### 1. Add a completed job and its photos
+
+1. Open the protected project editor at `https://kpdprojects.com.au/admin/` and sign in.
+2. Choose **Completed projects**, then **New completed project**.
+3. Add the title, a short page URL, location, summary and optional detailed description.
+4. Select the primary category and any additional categories.
+5. Upload a cover image: portrait, landscape or square JPEG, PNG or WebP, up to 12 MB. Add clear alternative text that describes what is visible. No manual cropping or resizing is needed. Export HEIC phone photos as JPEG first.
+6. Add gallery photos, captions and alternative text. Add a before-and-after pair only when suitable matching photos are available.
+7. Leave **Publication status** as **Draft** while checking the editor preview.
+8. Save the draft. When it is ready, set the status to **Published** and use the editorial workflow’s **Publish** action.
+
+Do not add a completion date when it is unknown. Optional fields disappear from the public page when left blank. You can mix different photo shapes in the same gallery. Upload once, check the preview, then publish; the build creates all required website copies. See `PHOTO_GUIDE.md` for details.
+
+### 2. Edit, unpublish or remove a job
+
+- To edit: open the job, make the change, preview it, then publish the update.
+- To unpublish: change **Publication status** to **Draft**, then publish that change. The job remains in the content archive but disappears from the public site.
+- To remove permanently: use **Delete entry**. Unpublishing is safer when the project may be needed later.
+- If a page URL must change, add the old path to **Previous URLs** before publishing so visitors are redirected.
+
+### 3. Create or rename a category
+
+1. Open **Portfolio settings → Categories**.
+2. Add or edit the category name, short description, order and visibility.
+3. Keep the **URL name** unchanged when only renaming a category; this preserves shared links.
+4. Publish the change. Empty categories stay hidden automatically.
+
+### 4. Change the featured projects
+
+Open a project and switch **Feature on homepage** on or off. Use **Display order** to control priority. The homepage shows no more than three and favours one project from each primary category before filling extra spaces.
+
+### 5. Preview and publish changes
+
+- The editor provides a project-card preview while content is being entered.
+- **Save** creates or updates a draft in the editorial workflow.
+- **Publish** merges the approved content into `main`.
+- GitHub Actions then checks the content, builds the static pages and deploys them to GitHub Pages.
+
+## One-time editor and hosting setup
+
+The content model, editor screens, publishing workflow and a secure GitHub App connection are implemented. Finish the account approval screens before claiming the public editor is live:
+
+1. In the GitHub repository, open **Settings → Pages** and set **Source** to **GitHub Actions**. The included `.github/workflows/deploy-pages.yml` workflow will then build and publish every approved change.
+2. Open `https://kpd-projects-portfolio.pastelpoppy3.chatgpt.site/editor-setup`, sign in to the private Site and use the **kpdprojectsau** GitHub account to register the prepared private GitHub App. Review and approve its contents/pull-requests write and metadata read permissions. Install it on **Only select repositories → folder-1**, not all repositories. The connection stores its client credentials encrypted in managed Sites D1; no secrets need to be copied into files, chat or browser source. No Netlify account is required.
+3. Open `/admin/`, sign in with GitHub, save a draft and preview it. The app and the signed-in user must both have permission to edit this exact repository. Sign in again when the eight-hour GitHub session expires. The app does not retain user or refresh tokens on the server.
+
+The editor has a built-in plain-English guide at `/admin/guide.html`. Publishing updates the public GitHub Pages website; the private review Site is separately deployed and does not automatically follow routine CMS commits. The public domain is not moved to Sites, and the private Site audience is preserved.
+
+For an interim edit before account approval, open a file under `content/projects/` on GitHub, choose Edit, update only the JSON fields and commit through a pull request. Upload original JPEG/PNG/WebP files into `assets/projects/uploads/` and use their `/assets/projects/uploads/filename.jpg` paths. After the public release workflow is enabled, merging the change builds all website copies automatically. Until then, do not merge a source-only release into a legacy root-directory Pages deployment.
+
+Visitors cannot edit content: the public editor requires GitHub-backed authentication and repository permission. Do not enable open registration.
+
+For a local preview, run:
 
 ```text
-kpdprojectsau@gmail.com
+npm ci
+npm run build
+python3 -m http.server 4173 --directory dist/client
 ```
 
-Quote submissions are saved to this private Google Sheet:
+Then open `http://localhost:4173/`.
+
+### Maintaining the editor connection
+
+`worker/index.js` handles only `/editor-setup` and `/auth/github`; other requests use the Sites static asset binding. Platform sign-in and the existing Sites audience remain in charge of access to the private Site. The GitHub App authenticates access to the public website's repository; it does not grant website visitors editing access.
+
+The runtime secret `EDITOR_AUTH_KEY` is managed in Sites (name only in `.env.example`). Keep it: changing it makes the encrypted app configuration unreadable. The Drizzle schema and schema-only migrations live in `db/` and `drizzle/`. `npm run db:generate` generates later migrations; Sites applies hosted migrations during deployment. Do not create tables during web requests. GitHub Pages needs neither this secret nor a database. Authentication tests use in-memory SQLite and mock GitHub responses, never live client secrets or enquiries.
+
+Run `npm run test:editor`, `npm run test:images` and `npm run check` before publishing code. Development-only Drizzle tooling is not shipped to browsers or the Worker.
+
+## Backups and portability
+
+All project text and image references are plain JSON and all uploaded photos are ordinary files in `assets/projects/`. A normal Git clone or repository download is a complete backup. Git history keeps prior published versions, and the content can be moved to another static-site generator or CMS without extracting it from a database.
+
+## Enquiry delivery
+
+The quote form still posts to the Google Apps Script Web App endpoint configured in `script.js`. Enquiries are emailed to `kpdprojectsau@gmail.com` and saved to the existing private Google Sheet. The current service does not store uploaded files, so the form still clearly asks visitors to email selected photos separately.
+
+Backend source and deployment notes remain in `google-apps-script/SETUP.md`.
+
+## Mobile maintenance and verification
+
+Shared templates now provide touch-sized links and filters, a scrollable mobile menu, safe-area spacing, responsive photos, an enlarged gallery with swipe/keyboard controls, and category-aware return links. Form details are kept only in the current browser tab's session while editing and are cleared on the success page. Photo files must be selected again after a reload.
+
+Run `npm run check` after changing content. For the browser regression checks, start the local server above and run:
 
 ```text
-https://docs.google.com/spreadsheets/d/1MDwYgQkRcsIo_wGBkVDYeKNc7W20rUlsn2FPXJTkFX8/edit?gid=0#gid=0
+playwright-cli --session kpd-mobile open http://127.0.0.1:4173/
+playwright-cli --session kpd-mobile run-code --filename scripts/mobile-browser-checks.js
+playwright-cli --session kpd-mobile run-code --filename scripts/photo-browser-checks.js
 ```
 
-The public contact email shown on the site is:
-
-```text
-kpdprojectsau@gmail.com
-```
-
-Google Apps Script source and deployment instructions are in:
-
-```text
-google-apps-script/SETUP.md
-```
-
-The deployed Apps Script accepts text fields but does not store multipart file uploads. The website therefore keeps photo selection local, clearly tells visitors to email photos separately, and includes selected filenames in the enquiry details. No photo is silently presented as uploaded.
-
-The live backend receives the new property type, urgency and preferred contact fields inside the brief description for backwards compatibility. The repository Apps Script source also has dedicated columns for these values for its next deployment.
-
-## Deployment
-
-This is a static GitHub Pages site served from the root of the `main` branch.
-
-The form confirmation URL is:
-
-```text
-https://kpdprojects.com.au/thanks.html
-```
-
-Project facts, reviews and image roles originate from the supplied KPD Projects handoff manifest.
+The browser checks intercept the Google Apps Script endpoint and never deliver a real enquiry. Keep that interception in place when testing successful submissions. See `MOBILE_AUDIT.md` for the tested screens, failure cases and remaining limits.

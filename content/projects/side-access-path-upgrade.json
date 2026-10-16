@@ -1,0 +1,61 @@
+{
+  "title": "Side Access Path Upgrade",
+  "slug": "side-access-path-upgrade-gordon",
+  "status": "published",
+  "primary_category": "outdoor-works",
+  "categories": ["outdoor-works"],
+  "location": "Gordon",
+  "summary": "We prepared the narrow side access and installed a clean stepping-stone path with decorative gravel, creating a practical, low-maintenance walkway.",
+  "description": "The narrow side access was prepared and improved with stepping stones and decorative gravel, creating a neat, practical walkway that is easier to maintain.",
+  "scope": [
+    "Prepared the narrow side access",
+    "Installed a stepping-stone path",
+    "Added a decorative gravel finish"
+  ],
+  "completion_date": "",
+  "cover_image": "/assets/projects/kpd-03-path-gordon/after-primary-1400.jpg",
+  "cover_alt": "Finished stepping-stone path with decorative gravel beside a Gordon home.",
+  "cover_caption": "Completed side access path",
+  "gallery": [
+    {
+      "image": "/assets/projects/kpd-03-path-gordon/before-wide-1400.jpg",
+      "alt": "Wide view of the muddy side access before the Gordon path upgrade.",
+      "caption": "Side access before work"
+    },
+    {
+      "image": "/assets/projects/kpd-03-path-gordon/preparation-01-1400.jpg",
+      "alt": "Side access during ground preparation for the new path.",
+      "caption": "Ground preparation"
+    },
+    {
+      "image": "/assets/projects/kpd-03-path-gordon/preparation-02-1400.jpg",
+      "alt": "Prepared path base along the side of the Gordon home.",
+      "caption": "Prepared path base"
+    },
+    {
+      "image": "/assets/projects/kpd-03-path-gordon/after-alternate-1400.jpg",
+      "alt": "Alternate view of the completed stepping-stone and gravel path.",
+      "caption": "Finished walkway"
+    }
+  ],
+  "before_after": [
+    {
+      "label": "Side access path upgrade",
+      "before_image": "/assets/projects/kpd-03-path-gordon/before-primary-1400.jpg",
+      "before_alt": "Muddy side access beside a Gordon home before path construction.",
+      "before_caption": "Before",
+      "after_image": "/assets/projects/kpd-03-path-gordon/after-primary-1400.jpg",
+      "after_alt": "Finished stepping-stone path with decorative gravel beside a Gordon home.",
+      "after_caption": "After"
+    }
+  ],
+  "featured": true,
+  "display_order": 1,
+  "review": {
+    "quote": "KPD Projects were excellent from start to finish. They transformed the side access of our home into a neat, practical walkway and made sure the surrounding garden area was left tidy. The workmanship was clean, the team was easy to deal with, and the finished result looks great. Highly recommend.",
+    "name": "Sarah D.",
+    "context": "Gordon customer",
+    "rating": 5
+  },
+  "redirect_from": []
+}
